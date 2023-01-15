@@ -80,6 +80,32 @@ export default {
         table[i] = Array(columns).fill(value);
       }
       this.$data.cellsData = table;
+
+      const holes = Number(this.$data.holes);
+      const maxCellsCount = rows * columns;
+      if (holes > maxCellsCount) {
+        alert('More holes than cells, select lower count');
+        return;
+      }
+      this.generateHolesCoordinates(holes, rows, columns);
+    },
+    generateHolesCoordinates(holes, rows, columns) {
+      const allCoordinates = [];
+      for (let i = 0; i < holes; i++) {
+        const coordinates = this.generateSingleHoleCoordinate(rows, columns, allCoordinates);
+        allCoordinates.push(coordinates);
+      }
+      this.$data.holesCoordinates = allCoordinates;
+    },
+    generateSingleHoleCoordinate(rows, columns, allCoordinates) {
+      const x = Math.floor(Math.random() * rows);
+      const y = Math.floor(Math.random() * columns);
+      const isSameCoordinate = allCoordinates.some((hole) => hole.x === x && hole.y === y);
+      if (isSameCoordinate) {
+        // to make holes coordinates always unique and always needed count
+        return this.generateSingleHoleCoordinate(rows, columns, allCoordinates);
+      }
+      return { x, y };
     }
   }
 };
