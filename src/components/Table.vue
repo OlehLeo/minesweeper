@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <v-container> Table </v-container>
 </template>
 
 <script>
