@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <div class="d-flex justify-center align-end py-8">
-      <div class="number-input"><v-text-field v-model="rows" type="number" hide-details /></div>
+      <div class="number-input"><v-text-field min="2" v-model="rows" type="number" hide-details /></div>
       <div class="px-4">rows</div>
-      <div class="number-input"><v-text-field v-model="columns" type="number" hide-details /></div>
+      <div class="number-input"><v-text-field min="2" v-model="columns" type="number" hide-details /></div>
       <div class="px-4">columns</div>
-      <div class="number-input"><v-text-field v-model="holes" type="number" hide-details /></div>
+      <div class="number-input"><v-text-field min="1" v-model="holes" type="number" hide-details /></div>
       <div class="px-4">holes</div>
       <v-btn class="primary" @click="generateTable">Generate table</v-btn>
     </div>
