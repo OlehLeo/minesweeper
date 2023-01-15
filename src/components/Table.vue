@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="d-flex align-end py-4">
+    <div class="d-flex justify-center align-end py-8">
       <div class="number-input"><v-text-field v-model="rows" type="number" hide-details /></div>
       <div class="px-4">rows</div>
       <div class="number-input"><v-text-field v-model="columns" type="number" hide-details /></div>
@@ -9,9 +9,21 @@
       <div class="px-4">holes</div>
       <v-btn class="primary" @click="generateTable">Generate table</v-btn>
     </div>
-    <div v-for="(row, i) in cellsData" :key="i" class="d-flex">
+    <div v-for="(row, i) in cellsData" :key="i" class="d-flex justify-center">
       <div v-for="(cell, j) in row" :key="j">
-        <div @click="openCell(i, j)" class="cell">{{ cell }}</div>
+        <div @click="openCell(i, j)" class="px-4 py-2">
+          <div v-if="cell === null">
+            <v-btn>
+              <v-icon>mdi-help</v-icon>
+            </v-btn>
+          </div>
+          <div v-else-if="typeof cell === 'number'">
+            <v-btn color="success"> {{ cell }} </v-btn>
+          </div>
+          <div v-else-if="cell === 'H'">
+            <v-btn color="error"> {{ cell }} </v-btn>
+          </div>
+        </div>
       </div>
     </div>
   </v-container>
@@ -21,20 +33,15 @@
 export default {
   name: 'Table',
   data: () => ({
-    cellsData: [
-      ['hidden', 'hidden', 'hidden'],
-      ['hidden', 'hidden', 'hidden'],
-      ['hidden', 'hidden', 'hidden']
-    ],
-    holesCoordinates: [
-      { x: 2, y: 0 },
-      { x: 0, y: 2 },
-      { x: 1, y: 2 }
-    ],
+    cellsData: [],
+    holesCoordinates: [],
     rows: 3,
     columns: 3,
     holes: 3
   }),
+  created() {
+    this.generateTable();
+  },
   methods: {
     openCell(cellX, cellY) {
       const isHole = this.$data.holesCoordinates.some((hole) => hole.x === cellX && hole.y === cellY);
@@ -74,7 +81,7 @@ export default {
     generateTable() {
       const rows = Number(this.$data.rows);
       const columns = Number(this.$data.columns);
-      const value = 'hidden';
+      const value = null;
       const table = Array(rows);
       for (let i = 0; i < rows; i++) {
         table[i] = Array(columns).fill(value);
@@ -112,10 +119,6 @@ export default {
 </script>
 
 <style scoped>
-.cell {
-  width: 100px;
-  height: 32px;
-}
 .number-input {
   width: 48px;
 }
